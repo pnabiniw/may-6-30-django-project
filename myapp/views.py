@@ -72,3 +72,7 @@ def inheritance_page1(request):
 
 def inheritance_page2(request):
     return render(request, "myapp/page2.html")
+
+
+def portfolio(request):
+    return render(request, template_name="myapp/portfolio.html")
