@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>From out template</title>
-</head>
-<body>
-<h1>This is from outside the App</h1>
-</body>
-</html>
+{% extends "myapp/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">S.N.</th>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ student.id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.age }}</td>
+                {% if student.status %}
+                    <td>Active</td>
+                {% else %}
+                    <td>Inactive</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
