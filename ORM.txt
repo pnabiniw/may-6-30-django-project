@@ -1,0 +1,48 @@
+Create
+1. Student.objects.create(name="Jon", age=25, department="CS")
+2. s1 = Student()
+   s1.name = "Rakesh"
+   s1.age = 24
+   s1.department = "CS"
+   s1.save()
+
+
+Read
+1. Student.objects.filter(name="Jon")
+    => filter() returns queryset either empty or non-empty.
+    => If we try to get the object not present in the table it returns an empty queryset
+    => If we try to get the objects occurring multiple times in the table, it returns
+       a queryset with multiple objects.
+    => Queryset are the list-like object but are immutable
+    => [obj1, obj2, obj3]
+2. Student.objects.get(name="Jane")
+    => It returns a single object.
+    => If we try to get the object not present in the table it raises
+       ObjectDoesNotExist error
+    => If we try to get the objects occurring multiple times in the table, it raises
+       MultipleObjectsReturned error
+
+3. Student.objects.all()
+    => It returns all the students Queryset in the Student table.
+
+
+Update
+1. Student.objects.filter(id=2).update(name="Rajesh", age=30)
+2. Student.objects.all().update(name="Rajesh", age=30)
+3. Student.objects.filter(department="IT").update(age=26)
+
+4. s1 = Student.objects.get(id=1)
+   s1.name = "Sita"
+   s1.age = 30
+   s1.save()
+
+
+Delete
+1. Student.objects.filter(id=2).delete()
+2. Student.objects.all().delete()
+3. Student.objects.filter(department="IT").delete()
+4. Student.objects.get(id=2).delete()
+
+
+
+python manage.py createsuperuser
