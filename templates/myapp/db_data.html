@@ -1,0 +1,29 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+    <p>This is table</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">S.N.</th>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Department</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ student.id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.age }}</td>
+                <td>{{ student.department }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
