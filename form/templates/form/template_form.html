@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+
+{% block content %}
+<h1>{{title}}</h1>
+<form method="post" action="{% url 'template_form' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Name</label>
+      <input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="name">
+    </div><br>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Age</label>
+        <input name="age" type="number" class="form-control" id="exampleFormControlInput1" placeholder="age">
+      </div><br>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Department</label>
+        <input name="department" type="text" class="form-control" id="exampleFormControlInput1" placeholder="department">
+      </div><br>
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Classroom</label>
+      <select name="classroom" class="form-control" id="exampleFormControlSelect1">
+        {% for classroom in classrooms %}
+        <option selected>{{classroom.name}}</option>
+        {% endfor %}
+
+      </select>
+    </div><br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}

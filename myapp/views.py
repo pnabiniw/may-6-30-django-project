@@ -82,6 +82,13 @@ def db_data(request):
     return render(request, template_name="myapp/db_data.html", context=context)
 
 
+def students(request):
+    context = {
+        "students": Student.objects.all(),
+        "title": "Students"
+    }
+    return render(request, "students.html", context=context)
+
 # ORMs (Object Relational Mapping)
 # Using ORM we don't need to apply raw sql queries to CRUD in a db table. We
 # get queries in python language to CRUD in the table.

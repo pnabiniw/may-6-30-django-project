@@ -26,9 +26,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp',
-    "django_extensions"
 ]
+
+CUSTOM_APPS = ['myapp', 'form']
+THIRD_PARTY_APPS = ["django_extensions", ]
+INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
