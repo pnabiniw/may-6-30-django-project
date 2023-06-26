@@ -15,6 +15,7 @@
             <th scope="col">Address</th>
             <th scope="col">Phone Number</th>
             <th scope="col">Classroom</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -24,10 +25,11 @@
                 <td>{{ student.name }}</td>
                 <td>{{ student.age }}</td>
                 <td>{{ student.department }}</td>
-                <td>{{ student.studentprofile.email }}</td>
-                <td>{{ student.studentprofile.address }}</td>
-                <td>{{ student.studentprofile.phone }}</td>
+                <td>{{ student.student_profile.email }}</td>
+                <td>{{ student.student_profile.address }}</td>
+                <td>{{ student.student_profile.phone }}</td>
                 <td>{{ student.classroom.name }}</td>
+                <td><a href="{% url 'student_detail' student.id %}">Detail</a></td>
             </tr>
         {% endfor %}
         </tbody>
