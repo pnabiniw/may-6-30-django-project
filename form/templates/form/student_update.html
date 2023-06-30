@@ -7,55 +7,71 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <form method="post" action="{% url 'template_form' %}" enctype="multipart/form-data">
+    <form method="post" action="{% url 'student_update' student.id %}" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group">
+    <div class="row">
+        <div class="form-group col-md-6">
             <label for="exampleFormControlInput1">Name</label>
-            <input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="name">
+            <input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="name"
+                   value="{{ student.name }}">
         </div>
         <br>
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="exampleFormControlInput1">Age</label>
-            <input name="age" type="number" class="form-control" id="exampleFormControlInput1" placeholder="age">
+            <input name="age" type="number" class="form-control" id="exampleFormControlInput1" placeholder="age"
+                   value="{{ student.age }}">
         </div>
+    </div>
         <br>
-        <div class="form-group">
+    <div class="row">
+        <div class="form-group col-md-6">
             <label for="exampleFormControlInput1">Department</label>
             <input name="department" type="text" class="form-control" id="exampleFormControlInput1"
-                   placeholder="department">
+                   placeholder="department" value="{{ student.department }}">
         </div>
         <br>
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="exampleFormControlSelect1">Classroom</label>
             <select name="classroom" class="form-control" id="exampleFormControlSelect1">
                 {% for classroom in classrooms %}
-                    <option selected>{{ classroom.name }}</option>
+                    {% if classroom.name == student.classroom.name %}
+                        <option selected>{{ classroom.name }}</option>
+                    {% else %}
+                        <option>{{ classroom.name }}</option>
+                    {% endif %}
                 {% endfor %}
 
             </select>
         </div>
+    </div>
+
         <br>
-        <div class="form-group">
+    <div class="row">
+        <div class="form-group col-md-6">
             <label for="exampleFormControlInput1">Address</label>
             <input name="address" type="text" class="form-control" id="exampleFormControlInput1"
-                   placeholder="department">
+                   placeholder="department" value="{{ student.student_profile.address }}">
         </div>
         <br>
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label for="exampleFormControlInput1">Email</label>
             <input name="email" type="email" class="form-control" id="exampleFormControlInput1"
-                   placeholder="department">
+                   placeholder="department" value="{{ student.student_profile.email }}">
         </div>
+    </div>
         <br>
         <div class="form-group">
             <label for="exampleFormControlInput1">Phone</label>
             <input name="phone" type="text" class="form-control" id="exampleFormControlInput1"
-                   placeholder="department">
+                   placeholder="department" value="{{ student.student_profile.phone }}">
         </div>
         <br>
         <div class="form-group">
-            <label for="exampleFormControlInput1">Profile Picture</label>
+        <label for="exampleFormControlInput1">Profile Picture</label>
             <input name="pp" type="file" class="form-control" id="exampleFormControlInput1" placeholder="department">
+            {% if student.student_profile.profile_picture %}
+                <img src="{{ student.student_profile.profile_picture.url }}" style="height: 100px; width: 100px">
+            {% endif %}
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>

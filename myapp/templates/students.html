@@ -4,6 +4,7 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
+    <a class="btn btn-success" style="float: right" href="{% url 'template_form' %}">Add Student</a><br><br>
     <table class="table">
         <thead>
         <tr>
@@ -30,6 +31,7 @@
                 <td>{{ student.student_profile.phone }}</td>
                 <td>{{ student.classroom.name }}</td>
                 <td><a href="{% url 'student_detail' student.id %}">Detail</a></td>
+                <td><a href="{% url 'student_update' student.id %}">Update</a></td>
             </tr>
         {% endfor %}
         </tbody>
