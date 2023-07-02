@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-CUSTOM_APPS = ['myapp', 'form']
+CUSTOM_APPS = ['myapp', 'form', "account"]
 THIRD_PARTY_APPS = ["django_extensions", ]
 INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS 
 
