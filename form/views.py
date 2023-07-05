@@ -1,5 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 
 from myapp.models import Student, ClassRoom, StudentProfile
 from django.db import transaction
@@ -34,6 +36,7 @@ def template_form(request):
     return render(request, "form/template_form.html", context=context)
 
 
+@login_required
 def student_detail(request, id):
     context = {
         "student": Student.objects.get(id=id),
@@ -125,6 +128,7 @@ class PortfolioView(TemplateView):
     #     return super().get(request, *args, **kwargs)
 
 
+@method_decorator(login_required, name="dispatch")
 class StudentListView(ListView):
     model = Student
     template_name = "students.html"
