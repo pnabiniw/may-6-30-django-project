@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.http import JsonResponse
 
 from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
+from .serializers import StudentSerializer, StudentModelSerializer
 
 from myapp.models import Student
 
@@ -55,14 +57,15 @@ class StudentView(APIView):
         except Student.DoesNotExist:
             return Response({
                 "detail": "Not Found"
-            })
-        return Response({
+            }, status=status.HTTP_404_NOT_FOUND)
+        response = {
             "id": student.id,
             "name": student.name,
             "age": student.age,
             "department": student.department,
             "classroom": student.classroom.name if student.classroom else None
-        })
+        }
+        return Response(response)
 
 
 class StudentListView(APIView):
@@ -70,3 +73,40 @@ class StudentListView(APIView):
         students = Student.objects.all()
         response = [dict(name=student.name, age=student.age, department=student.department) for student in students]
         return Response(response)
+
+
+class StudentAPIView(APIView):
+    def get(self, *args, **kwargs):
+        try:
+            student = Student.objects.get(id=kwargs['id'])
+        except Student.DoesNotExist:
+            return Response({
+                "detail": "Not Found"
+            }, status=status.HTTP_404_NOT_FOUND)
+        serializer = StudentModelSerializer(student)
+        return Response(serializer.data)
+
+    def post(self, *args, **kwargs):
+        serializer = StudentModelSerializer(data=self.request.data)
+        if serializer.is_valid():
+            name = serializer.validated_data.get("name")
+            age = serializer.validated_data.get("age")
+            department = serializer.validated_data.get("department")
+            classroom = serializer.validated_data.get("classroom")
+            Student.objects.create(name=name, age=age, department=department,
+                                   classroom=classroom)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StudentListCreateAPIView(APIView):
+    def get(self, *args, **kwargs):
+        students = Student.objects.all()
+        serializer = StudentModelSerializer(students, many=True, context={"request": self.request})
+        return Response(serializer.data)
+
+    def post(self, *args, **kwargs):
+        serializer = StudentModelSerializer(data=self.request.data, context={"request": self.request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
