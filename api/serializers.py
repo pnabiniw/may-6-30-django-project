@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from myapp.models import Student, ClassRoom
+from myapp.models import Student, ClassRoom, StudentProfile
 
 
 class ClassRoomSerializer(serializers.Serializer):
@@ -20,13 +20,27 @@ class ClassRoomModelSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
+class StudentProfileModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentProfile
+        fields = "__all__"
+
+
 class StudentModelSerializer(serializers.ModelSerializer):
     about_me = serializers.SerializerMethodField()
+    profile = serializers.SerializerMethodField()
 
     class Meta:
         model = Student
-        fields = ["id", "name", "age", "department", "classroom", "about_me"]  # '__all__'
+        fields = ["id", "name", "age", "department", "classroom",
+                  "about_me", "profile"]  # '__all__'
 
+    def get_profile(self, obj):
+        try:
+            profile = obj.student_profile
+        except:
+            profile = None
+        return StudentProfileModelSerializer(profile).data
     @staticmethod
     def get_about_me(student):
         return f"Hello I'm {student.name} and I'm {student.age} years old"
@@ -50,3 +64,15 @@ class StudentModelSerializer(serializers.ModelSerializer):
         if request and request.method == "GET":
             fields['classroom'] = ClassRoomModelSerializer()
         return fields
+
+    # def create(self, validated_data):
+    #     profile = validated_data.pop("profile") # {"phone": "9890989098", "} phone="9890-980", 
+    #     instance = super().create(validated_data)
+    #     StudentProfile.objects.create(student=instance, **profile)
+    #     return instance
+
+
+    # def update(self, instance, validated_data):
+    #     instance.name =  validated_data["name"]
+    #     instance.save()
+    #     return super().update(instance, validated_data)
