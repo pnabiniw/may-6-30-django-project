@@ -1,13 +1,15 @@
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
 from .views import hello_api, InfoView, InfoListView, StudentView, StudentListView, \
     StudentAPIView, StudentListCreateAPIView
 from .generic_views import StudentListGenericView, StudentCreateGenericView, StudentListCreateGenericView, \
     StudentRetrieveGenericView, StudentUpdateGenericView, StudentDeleteGenericView, StudentRetrieveUpdateDeleteGenericView
-from .viewsets import StudentModelViewSet
+from .viewsets import StudentModelViewSet, ClassRoomModelViewSet
 
 router = DefaultRouter()
 router.register('student-viewset', StudentModelViewSet, basename="student")
+router.register('classroom-viewset', ClassRoomModelViewSet, basename="classroom")
 
 
 urlpatterns = [
@@ -27,4 +29,6 @@ urlpatterns = [
     path("student-update-generic/<int:pk>/", StudentUpdateGenericView.as_view()),
     path("student-delete-generic/<int:pk>/", StudentDeleteGenericView.as_view()),
     path("student-retrieve-update-delete-generic/<int:pk>/", StudentRetrieveUpdateDeleteGenericView.as_view()),
+
+    path('login/', obtain_auth_token, name="token_login")
 ] + router.urls

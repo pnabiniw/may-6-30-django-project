@@ -45,9 +45,6 @@ class StudentDeleteGenericView(DestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentModelSerializer
 
-    def destroy(self, request, *args, **kwargs):
-        pass
-
 
 class StudentRetrieveUpdateDeleteGenericView(RetrieveUpdateDestroyAPIView):
     serializer_class = StudentModelSerializer
@@ -79,3 +76,6 @@ Views that can be grouped together
 => Retrieve, Update, Destroy
 
 """
+
+# classroom, created =  ClassRoom.objects.get_or_create(name="One")
+# student, created = Student.objects.update_or_create(email="a@a.com", defaults={"name": "Jon", "age": 23})

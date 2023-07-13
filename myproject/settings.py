@@ -1,4 +1,7 @@
 from pathlib import Path
+
+import rest_framework.authentication
+
 from .env import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +32,7 @@ INSTALLED_APPS = [
 ]
 
 CUSTOM_APPS = ['myapp', 'form', "account", "api"]
-THIRD_PARTY_APPS = ["django_extensions", "rest_framework"]
+THIRD_PARTY_APPS = ["django_extensions", "rest_framework", "rest_framework.authtoken"]
 INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS 
 
 MIDDLEWARE = [
@@ -133,3 +136,18 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = "login"
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework.authentication.TokenAuthentication", ],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated", ]
+
+}
+
+
+"""
+Basic Authentication username/password
+Token Authentication  user => Key
+Session Authentication user => Session
+JWT Authentication  Refresh Token (10hr) / Access Token (1 hr)
+"""
