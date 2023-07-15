@@ -1,3 +1,4 @@
+import requests
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
@@ -14,8 +15,7 @@ class StudentModelViewSet(ModelViewSet):
     # permission_classes = [AllowAny, ]
 
     def get_permissions(self):
-        if self.action in ['list', "retrieve"]:
-            return [AllowAny(), ]
+        # if self.action in ['list', 'retrieve']:
             # return [(IsSuperUser|IsAuthenticated)(), ]  # This is for Or
             # return [IsSuperUser(), IsAuthenticated(), ]  # This is for And
         # return [IsAuthenticated(), ]
@@ -54,3 +54,11 @@ class ClassRoomModelViewSet(CreateListUpdateViewSet):
 # classroom/1/student/
 # list, create, update, retrieve, deslass Classtroy
 
+
+# Use cases in FE
+# response = axios.post("127.0.0.1:8000/api/login/", body={"username": "Jon", "password":"123"})
+# localstorage.set(token, response.data['token'])
+#
+#
+# token = localstorage.get("token")
+# response = axios.post("127.0.0.1:8000/api/student/", body={"name": "Jon"}, headers={"Authorization": f"Token {token}"})
