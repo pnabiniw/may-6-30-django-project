@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from api.mixins import ListUpdateViewSet, CreateListUpdateViewSet
 from api.serializers import StudentModelSerializer, StudentProfileModelSerializer, ClassRoomModelSerializer
@@ -12,6 +14,9 @@ from .permissions import IsSuperUser
 
 class StudentModelViewSet(ModelViewSet):
     queryset = Student.objects.all()
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    search_fields = ['name', 'department', 'student_profile__email']
+    filterset_fields = ["department", ]
     # permission_classes = [AllowAny, ]
 
     def get_permissions(self):

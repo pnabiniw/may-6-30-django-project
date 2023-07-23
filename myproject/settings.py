@@ -17,7 +17,7 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEBUG
 
-ALLOWED_HOSTS = ["*"]  # here * refers to all domains
+ALLOWED_HOSTS = ['*']  # here * refers to all domains
 
 
 # Application definition
@@ -32,7 +32,8 @@ INSTALLED_APPS = [
 ]
 
 CUSTOM_APPS = ['myapp', 'form', "account", "api"]
-THIRD_PARTY_APPS = ["django_extensions", "rest_framework", "rest_framework.authtoken"]
+THIRD_PARTY_APPS = ["django_extensions", "rest_framework", "rest_framework.authtoken",
+                    'django_filters', 'drf_yasg']
 INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS 
 
 MIDDLEWARE = [
@@ -154,3 +155,5 @@ Token Authentication  user => Key
 Session Authentication user => Session
 JWT Authentication  Refresh Token (10hr) / Access Token (1 hr)
 """
+
+ALLOW_CORS_ORIGINS = ["http://127.0.0.1:3000"]

@@ -52,3 +52,6 @@ class ArticlePublication(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
     xyz = models.CharField
+
+
+from django.contrib.auth.models import User
