@@ -24,7 +24,7 @@ class StudentModelViewSet(ModelViewSet):
             # return [(IsSuperUser|IsAuthenticated)(), ]  # This is for Or
             # return [IsSuperUser(), IsAuthenticated(), ]  # This is for And
         # return [IsAuthenticated(), ]
-        return [IsSuperUser(), ]
+        return [AllowAny(), ]
 
     def get_serializer_class(self):
         if self.action == "profile":

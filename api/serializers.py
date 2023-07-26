@@ -23,7 +23,8 @@ class ClassRoomModelSerializer(serializers.ModelSerializer):
 class StudentProfileModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentProfile
-        fields = "__all__"
+        # fields = "__all__"
+        fields = ['email', 'address', 'phone']
 
 
 class StudentModelSerializer(serializers.ModelSerializer):
@@ -60,17 +61,26 @@ class StudentModelSerializer(serializers.ModelSerializer):
     def get_fields(self):
         fields = super().get_fields()
         request = self.context.get("request")
-        print(self.context)
-        if request and request.method == "GET":
-            fields['classroom'] = ClassRoomModelSerializer()
+        # if request and request.method == "GET":
+        #     self.Meta.depth = 1
+        if request and request.method.lower() == 'post':
+            fields['profile'] = StudentProfileModelSerializer()
         return fields
 
-    # def create(self, validated_data):
-    #     profile = validated_data.pop("profile") # {"phone": "9890989098", "} phone="9890-980", 
-    #     instance = super().create(validated_data)
-    #     StudentProfile.objects.create(student=instance, **profile)
-    #     return instance
+    def create(self, validated_data):
+        profile = validated_data.pop("profile")  # {"phone": "9890989098", "} phone="9890-980",
+        instance = super().create(validated_data)
+        StudentProfile.objects.create(student=instance, **profile)
+        instance.profile = profile
+        return instance
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get('request')
+        if request and request.method.lower() == 'post':
+            if instance.classroom is not None:
+                data['classroom'] = ClassRoomModelSerializer(instance.classroom).data
+        return data
 
     # def update(self, instance, validated_data):
     #     instance.name =  validated_data["name"]
